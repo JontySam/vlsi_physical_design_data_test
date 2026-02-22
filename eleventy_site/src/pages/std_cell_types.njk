@@ -1,0 +1,226 @@
+---
+body_class: "sub-page-body"
+layout: layouts/base.njk
+title: "Standard Cell Types in VLSI | VLSI Physical Design Hub"
+description: "Overview of standard cell categories, drive strengths, Vt flavors, and special-purpose cells used in physical design."
+keywords: "standard cells, VLSI, physical design, multi-Vt, drive strength, library"
+og_type: "article"
+permalink: /std_cell_types/
+---
+
+<header id="main-header">
+
+
+        <a href="/" class="logo">VLSI <span>Hub</span></a>
+
+
+
+
+
+        <nav class="page-nav" id="page-navigation">
+
+
+            <a href="/">Home</a>
+
+
+            <a href="/blog/">Blog</a>
+
+
+            <a href="/work_sited/">Works Cited</a>
+
+
+            <a href="/about/#about">About</a>
+
+
+            <a href="/about/#contact">Contact</a>
+
+
+        </nav>
+
+
+
+
+
+        <button class="mobile-nav-toggle" aria-controls="page-navigation" aria-expanded="false">
+
+
+            <span class="hamburger-line"></span>
+
+
+            <span class="hamburger-line"></span>
+
+
+            <span class="hamburger-line"></span>
+
+
+        </button>
+
+
+    </header>
+
+
+    <main class="container">
+
+
+        <article>
+
+
+            <section class="hero-section scroll-reveal">
+
+
+                <h1>Standard Cell Types</h1>
+
+
+                <p>Know the building blocks before you optimize them.</p>
+
+
+            </section>
+
+
+
+
+
+            <section class="scroll-reveal">
+
+
+                <h2>Overview</h2>
+
+
+                <p>Standard cells are pre-characterized logic elements used to build digital designs. Each cell comes in multiple drive strengths and often multiple threshold voltage options, allowing tradeoffs between speed, power, and area.</p>
+
+
+                <p>A healthy library includes combinational logic, sequential elements, clock cells, and special-purpose cells that protect signal integrity and manufacturability.</p>
+
+
+            </section>
+
+
+
+
+
+            <section class="scroll-reveal">
+
+
+                <h2>Common Cell Categories</h2>
+
+
+                <p>Combinational cells (inverters, NAND/NOR, AOI/OAI) form the logic fabric.</p>
+
+
+                <p>Sequential cells (flip-flops, latches) capture state and define timing boundaries.</p>
+
+
+                <p>Clock and CTS cells (buffers, inverters, clock gates) manage skew and insertion delay.</p>
+
+
+                <p>Special cells (tie-high/low, level shifters, isolation, retention) support low-power and multi-voltage designs.</p>
+
+
+                <p>Physical only cells (tap, endcap, filler, decap) ensure well integrity and DRC compliance.</p>
+
+
+            </section>
+
+
+
+
+
+            <section class="scroll-reveal">
+
+
+                <h2>Selection Tips</h2>
+
+
+                <p>Use higher drive cells only on critical paths or heavy loads.</p>
+
+
+                <p>Prefer high-Vt cells for leakage control and low-Vt on timing-critical paths.</p>
+
+
+                <p>Keep clock networks on dedicated clock cells to minimize jitter and skew.</p>
+
+
+            </section>
+
+
+
+
+
+            <section class="scroll-reveal">
+
+
+                <h2>Related Topics</h2>
+
+
+                <ul>
+
+
+                    <li><a href="/delay_models/">Delay Models</a></li>
+
+
+                    <li><a href="/sta/">Static Timing Analysis</a></li>
+
+
+                    <li><a href="/pd_cells/">Physical Design Cells</a></li>
+
+
+                </ul>
+
+
+            </section>
+
+
+
+
+
+                        <section class="related-topics scroll-reveal">
+                <h3>Related Topics</h3>
+                <p>Use these connected concepts to move to the next stage in the physical design flow.</p>
+                <ul class="related-links-grid">
+                    <li><a href="/logic_synthesis/">Logic Synthesis</a></li>
+                    <li><a href="/advanced_logic_synthesis/">Advanced Logic Synthesis</a></li>
+                    <li><a href="/advanced_synthesis/">Advanced Synthesis</a></li>
+                    <li><a href="/cmos_fundamentals/">CMOS Fundamentals</a></li>
+                    <li><a href="/ccs_modeling/">CCS Modeling</a></li>
+                    <li><a href="/delay_models/">Delay Models</a></li>
+                    <li><a href="/pd_cells/">Physical Design Cells</a></li>
+                    <li><a href="/pd_inputs/">PD Inputs</a></li>
+                </ul>
+            </section>
+            <section class="bottom-nav">
+
+
+                <a href="/">
+
+
+                    <span class="nav-label">&larr; Previous</span>
+
+
+                    <span class="nav-title">Home</span>
+
+
+                </a>
+
+
+                <a href="/delay_models/" class="nav-next">
+
+
+                    <span class="nav-label">Next &rarr;</span>
+
+
+                    <span class="nav-title">Delay Models</span>
+
+
+                </a>
+
+
+            </section>
+
+
+        </article>
+
+
+    </main>
+
+
+    <script src="/main.js" defer></script>

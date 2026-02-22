@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or site.name }}</title>
+  {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+  {% if keywords %}<meta name="keywords" content="{{ keywords }}">{% endif %}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="{{ og_type or 'website' }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:title" content="{{ og_title or title or site.name }}">
+  <meta property="og:description" content="{{ og_description or description or site.description }}">
+  <meta property="og:image" content="{{ site.url }}{{ og_image or site.image }}">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="twitter:title" content="{{ twitter_title or og_title or title or site.name }}">
+  <meta property="twitter:description" content="{{ twitter_description or og_description or description or site.description }}">
+  <meta property="twitter:image" content="{{ site.url }}{{ twitter_image or og_image or site.image }}">
+
+  {% if robots %}<meta name="robots" content="{{ robots }}">{% endif %}
+
+  {{ head_extra | safe }}
+  <link rel="stylesheet" href="/main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Poppins:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Poppins:wght@600;700&display=swap"></noscript>
+</head>
+<body class="{{ body_class or '' }}">
+  {{ content | safe }}
+  <script src="/main.js" defer></script>
+</body>
+</html>
