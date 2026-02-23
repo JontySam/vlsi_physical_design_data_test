@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logic Synthesis Lab Note | VLSI PD Lab</title>
+  <meta name="description" content="A practical synthesis guide that covers flow stages, optimization logic, technology mapping, and handoff checks, rewritten for implementation-focused study rather than textbook sequencing.">
+  
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://www.vlsiphysicaldesign.site/guides/logic_synthesis/">
+  
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI PD Lab">
+  <meta property="og:title" content="Logic Synthesis Lab Note | VLSI PD Lab">
+  <meta property="og:description" content="A practical synthesis guide that covers flow stages, optimization logic, technology mapping, and handoff checks, rewritten for implementation-focused study rather than textbook sequencing.">
+  <meta property="og:url" content="https://www.vlsiphysicaldesign.site/guides/logic_synthesis/">
+  <meta property="og:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Logic Synthesis Lab Note | VLSI PD Lab">
+  <meta name="twitter:description" content="A practical synthesis guide that covers flow stages, optimization logic, technology mapping, and handoff checks, rewritten for implementation-focused study rather than textbook sequencing.">
+  <meta name="twitter:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>VLSI PD Lab</strong>
+          <small>Fast study notes and implementation checklists</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main"><section class="shell page-head">
+  <p class="eyebrow">Logic &amp; Handoff | Intermediate</p>
+  <h1>RTL-to-Gates Synthesis and Handoff Readiness</h1>
+  <p class="lede">A practical synthesis guide that covers flow stages, optimization logic, technology mapping, and handoff checks, rewritten for implementation-focused study rather than textbook sequencing.</p>
+  <p class="meta">Estimated review time: ~50 minutes | Updated 2026-02-18</p>
+</section>
+
+<section class="shell section two-col">
+  <article class="panel flow">
+    <h2>Design context and scope</h2>
+    <p>This page keeps the topic coverage from the original logic synthesis article (goals, stages, optimization, mapping, and checks) but recasts it as a handoff-quality guide for physical design learners who need to read synthesis results critically.</p>
+
+    
+    <h2>Coverage map for this lab note</h2>
+    <ul>
+      
+      <li>What synthesis is trying to optimize and how timing, area, power, and DFT goals compete.</li>
+      
+      <li>Typical synthesis stages from RTL elaboration through optimization to final library-mapped netlist generation.</li>
+      
+      <li>Inputs and outputs: RTL, libraries, constraints, operating conditions, reports, and gate-level netlist artifacts.</li>
+      
+      <li>Logic optimization approaches including two-level and multi-level transformations and when they matter in practice.</li>
+      
+      <li>Technology mapping workflow: matching, covering, and library cell selection under constraints.</li>
+      
+      <li>Physical-aware and power-aware synthesis concepts, including why early optimization can help or hurt downstream PD.</li>
+      
+      <li>Pre-synthesis and post-synthesis qualification checks before handing off to floorplan and placement teams.</li>
+      
+      <li>Where synthesis sits relative to HLS and domain-specific flows in the broader EDA ecosystem.</li>
+      
+    </ul>
+    
+
+    <h2>What you should be able to explain</h2>
+    <ul>
+      
+      <li>Describe the synthesis flow in terms of deliverables and decisions, not just tool commands.</li>
+      
+      <li>Identify which reports and warnings should block a handoff to physical design.</li>
+      
+      <li>Explain how constraints shape optimization behavior and why poor SDC quality produces misleading QoR.</li>
+      
+      <li>Recognize the difference between a synthesis improvement and a change that merely shifts complexity downstream.</li>
+      
+    </ul>
+
+    <h2>Review checklist before moving ahead</h2>
+    <ol>
+      
+      <li>Confirm library set, corners, and operating conditions used for synthesis are documented.</li>
+      
+      <li>Review timing, area, and power summary reports before looking at detailed violations.</li>
+      
+      <li>Check constraint coverage (clocks, IO delays, exceptions) and note intentional assumptions.</li>
+      
+      <li>Inspect major warnings: unmapped logic, inferred latches, constant nets, or black-box issues.</li>
+      
+      <li>Record handoff notes for PD: expected critical paths, high-fanout nets, and constraint caveats.</li>
+      
+    </ol>
+
+    
+    <h2>Common watchouts</h2>
+    <ul>
+      
+      <li>A clean netlist is not enough; a weak constraint set can produce a formally valid but physically difficult handoff.</li>
+      
+      <li>Do not compare QoR across runs without checking whether libraries, corners, or optimization priorities changed.</li>
+      
+      <li>Aggressive synthesis cleanup can hide structural issues that later reappear during placement or CTS.</li>
+      
+    </ul>
+    
+
+    
+    <h2>Self-check prompts</h2>
+    <ul>
+      
+      <li>Why are constraints often more important than optimization switches in synthesis quality?</li>
+      
+      <li>What would you ask for before accepting a synthesis handoff into floorplanning?</li>
+      
+      <li>When should a fix remain in synthesis versus being deferred to physical implementation?</li>
+      
+    </ul>
+    
+  </article>
+
+  <aside class="side-stack">
+    <section class="panel">
+      <h2>Entry requirements</h2>
+      <ul>
+        
+        <li>RTL basics</li>
+        
+        <li>Combinational/sequential logic concepts</li>
+        
+        <li>Intro timing terminology</li>
+        
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Key terms to retain</h2>
+      <div class="chips">
+        
+        <span class="chip">Logic Synthesis</span>
+        
+        <span class="chip">RTL</span>
+        
+        <span class="chip">Gate-level Netlist</span>
+        
+        <span class="chip">Technology Mapping</span>
+        
+        <span class="chip">Constraints</span>
+        
+        <span class="chip">PPA</span>
+        
+        <span class="chip">QoR</span>
+        
+        <span class="chip">Verification</span>
+        
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this page with</h2>
+      <ul>
+        <li><a href="/guides/#logic">Back to Logic &amp; Handoff</a></li>
+        <li><a href="/tracks/">Use a study track for sequencing</a></li>
+        <li><a href="/">Return to home</a></li>
+      </ul>
+    </section>
+  </aside>
+</section>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>VLSI PD Lab</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
+</body>
+</html>

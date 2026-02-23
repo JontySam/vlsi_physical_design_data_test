@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Physical Design Inputs Lab Note | VLSI PD Lab</title>
+  <meta name="description" content="A setup-focused guide to PD inputs and library ecosystems, covering netlists, SDC, LEF and LIB, tech files, DEF, parasitics, power intent, and tool database setup with a practical startup checklist.">
+  
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://www.vlsiphysicaldesign.site/guides/pd_inputs/">
+  
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI PD Lab">
+  <meta property="og:title" content="Physical Design Inputs Lab Note | VLSI PD Lab">
+  <meta property="og:description" content="A setup-focused guide to PD inputs and library ecosystems, covering netlists, SDC, LEF and LIB, tech files, DEF, parasitics, power intent, and tool database setup with a practical startup checklist.">
+  <meta property="og:url" content="https://www.vlsiphysicaldesign.site/guides/pd_inputs/">
+  <meta property="og:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Physical Design Inputs Lab Note | VLSI PD Lab">
+  <meta name="twitter:description" content="A setup-focused guide to PD inputs and library ecosystems, covering netlists, SDC, LEF and LIB, tech files, DEF, parasitics, power intent, and tool database setup with a practical startup checklist.">
+  <meta name="twitter:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>VLSI PD Lab</strong>
+          <small>Fast study notes and implementation checklists</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main"><section class="shell page-head">
+  <p class="eyebrow">Inputs &amp; Setup | Beginner</p>
+  <h1>Physical Design Input Stack and Setup Integrity Checks</h1>
+  <p class="lede">A setup-focused guide to PD inputs and library ecosystems, covering netlists, SDC, LEF and LIB, tech files, DEF, parasitics, power intent, and tool database setup with a practical startup checklist.</p>
+  <p class="meta">Estimated review time: ~40 minutes | Updated 2026-02-18</p>
+</section>
+
+<section class="shell section two-col">
+  <article class="panel flow">
+    <h2>Design context and scope</h2>
+    <p>This page reframes the original PD inputs article into a startup and sanity-check guide. It keeps the same data categories (logical, physical, timing, technology, and tool databases) but emphasizes dependency order and validation before the first implementation run.</p>
+
+    
+    <h2>Coverage map for this lab note</h2>
+    <ul>
+      
+      <li>High-level view of PD input pillars: logical netlist, constraints, libraries, and technology and interconnect data.</li>
+      
+      <li>Gate-level netlist and constraint files as the functional and performance contract for implementation tools.</li>
+      
+      <li>Technology files, tech LEF, and interconnect and parasitic data that define physical rules and wire behavior.</li>
+      
+      <li>Standard-cell library taxonomy and why multiple cell classes exist for PPA tradeoffs.</li>
+      
+      <li>LEF and Liberty as complementary physical and timing and power views of the same cells.</li>
+      
+      <li>DEF as a design snapshot and exchange format during implementation iterations.</li>
+      
+      <li>Tool-native database environments (Milkyway and NDM style) and library-type organization inside tool setups.</li>
+      
+      <li>Power intent (UPF) and CTS-related constraints that extend the baseline setup beyond netlist plus SDC.</li>
+      
+      <li>Practical first-run sequencing, including why libraries and technology data must load before design import.</li>
+      
+    </ul>
+    
+
+    <h2>What you should be able to explain</h2>
+    <ul>
+      
+      <li>List the minimum required files to start a PD block and explain what each one contributes.</li>
+      
+      <li>Differentiate LEF, LIB, DEF, and tech files by role and typical failure mode when mismatched.</li>
+      
+      <li>Create a setup-order checklist that reduces tool ingestion errors and version confusion.</li>
+      
+      <li>Recognize when missing parasitic or power-intent data changes the scope of valid analysis.</li>
+      
+    </ul>
+
+    <h2>Review checklist before moving ahead</h2>
+    <ol>
+      
+      <li>Verify netlist revision, SDC revision, and library versions are synchronized and documented.</li>
+      
+      <li>Check LEF and LIB naming consistency and confirm cell variants referenced by the netlist exist in libraries.</li>
+      
+      <li>Confirm technology, track, and parasitic files match the intended process and metal stack.</li>
+      
+      <li>Load libraries before design import and record any unresolved references immediately.</li>
+      
+      <li>Document optional inputs (UPF, extracted parasitics, NDR constraints) and whether they are in scope for the run.</li>
+      
+    </ol>
+
+    
+    <h2>Common watchouts</h2>
+    <ul>
+      
+      <li>Most early PD failures come from data mismatch, not tool quality. Version tracking matters.</li>
+      
+      <li>A successful import does not guarantee valid timing or power correlation if corners or libraries are wrong.</li>
+      
+      <li>Do not treat LEF and LIB mismatches as minor warnings; they can invalidate placement, timing, and routing assumptions.</li>
+      
+    </ul>
+    
+
+    
+    <h2>Self-check prompts</h2>
+    <ul>
+      
+      <li>What breaks first when the netlist and library set are out of sync?</li>
+      
+      <li>Why is load order important in ICC2-style setups?</li>
+      
+      <li>When is it acceptable to proceed without extracted parasitics or full UPF data?</li>
+      
+    </ul>
+    
+  </article>
+
+  <aside class="side-stack">
+    <section class="panel">
+      <h2>Entry requirements</h2>
+      <ul>
+        
+        <li>ASIC flow overview</li>
+        
+        <li>Basic synthesis handoff concepts</li>
+        
+        <li>Familiarity with file-based tool flows</li>
+        
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Key terms to retain</h2>
+      <div class="chips">
+        
+        <span class="chip">PD Inputs</span>
+        
+        <span class="chip">Netlist</span>
+        
+        <span class="chip">SDC</span>
+        
+        <span class="chip">LEF</span>
+        
+        <span class="chip">LIB</span>
+        
+        <span class="chip">DEF</span>
+        
+        <span class="chip">Tech LEF</span>
+        
+        <span class="chip">UPF</span>
+        
+        <span class="chip">Milkyway</span>
+        
+        <span class="chip">NDM</span>
+        
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this page with</h2>
+      <ul>
+        <li><a href="/guides/#inputs">Back to Inputs &amp; Setup</a></li>
+        <li><a href="/tracks/">Use a study track for sequencing</a></li>
+        <li><a href="/">Return to home</a></li>
+      </ul>
+    </section>
+  </aside>
+</section>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>VLSI PD Lab</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
+</body>
+</html>

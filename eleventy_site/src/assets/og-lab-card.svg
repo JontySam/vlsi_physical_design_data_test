@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0b5fff"/>
+      <stop offset="100%" stop-color="#26b0ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#f6f8fb"/>
+  <circle cx="160" cy="120" r="220" fill="#e8f0ff"/>
+  <circle cx="1070" cy="80" r="180" fill="#eaf8f1"/>
+  <rect x="70" y="70" width="1060" height="490" rx="24" fill="#fff" stroke="#dbe3ee"/>
+  <rect x="110" y="110" width="72" height="72" rx="14" fill="url(#g)"/>
+  <text x="146" y="156" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#fff">PD</text>
+  <text x="215" y="154" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#0f172a">VLSI PD Lab</text>
+  <text x="110" y="245" font-family="Arial, sans-serif" font-size="54" font-weight="700" fill="#0f172a">Fast Study Notes &amp; Checklists</text>
+  <text x="110" y="305" font-family="Arial, sans-serif" font-size="26" fill="#475569">Lightweight Eleventy test site with distinct IA for the .site domain</text>
+  <rect x="110" y="360" width="270" height="46" rx="23" fill="#e8f0ff" stroke="#d8e5ff"/>
+  <text x="245" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#17408b">/guides + /tracks structure</text>
+  <rect x="395" y="360" width="260" height="46" rx="23" fill="#eefaf5" stroke="#cfeedd"/>
+  <text x="525" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#0d6b46">No heavy page scripts</text>
+</svg>

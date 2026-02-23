@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CMOS Fundamentals Lab Note | VLSI PD Lab</title>
+  <meta name="description" content="A rewritten foundation guide covering semiconductor behavior, PN junction intuition, MOS structures, inverter behavior, power, and timing concepts with direct relevance to later PD and STA decisions.">
+  
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://www.vlsiphysicaldesign.site/guides/cmos_fundamentals/">
+  
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI PD Lab">
+  <meta property="og:title" content="CMOS Fundamentals Lab Note | VLSI PD Lab">
+  <meta property="og:description" content="A rewritten foundation guide covering semiconductor behavior, PN junction intuition, MOS structures, inverter behavior, power, and timing concepts with direct relevance to later PD and STA decisions.">
+  <meta property="og:url" content="https://www.vlsiphysicaldesign.site/guides/cmos_fundamentals/">
+  <meta property="og:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CMOS Fundamentals Lab Note | VLSI PD Lab">
+  <meta name="twitter:description" content="A rewritten foundation guide covering semiconductor behavior, PN junction intuition, MOS structures, inverter behavior, power, and timing concepts with direct relevance to later PD and STA decisions.">
+  <meta name="twitter:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>VLSI PD Lab</strong>
+          <small>Fast study notes and implementation checklists</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main"><section class="shell page-head">
+  <p class="eyebrow">Foundations | Beginner</p>
+  <h1>CMOS Device Behavior for Physical Design Engineers</h1>
+  <p class="lede">A rewritten foundation guide covering semiconductor behavior, PN junction intuition, MOS structures, inverter behavior, power, and timing concepts with direct relevance to later PD and STA decisions.</p>
+  <p class="meta">Estimated review time: ~45 minutes | Updated 2026-02-18</p>
+</section>
+
+<section class="shell section two-col">
+  <article class="panel flow">
+    <h2>Design context and scope</h2>
+    <p>This lab note reframes the old long-form CMOS fundamentals page into a study-first structure. It keeps the same technical scope (device physics to timing context) but emphasizes how each concept affects implementation, timing closure, and power analysis conversations.</p>
+
+    
+    <h2>Coverage map for this lab note</h2>
+    <ul>
+      
+      <li>Semiconductor conduction basics and how charge movement translates to switching behavior.</li>
+      
+      <li>PN junction equilibrium and bias conditions, including why junction behavior matters in parasitics and leakage discussions.</li>
+      
+      <li>MOS capacitor and MOSFET structure, operating regions, and current-voltage intuition used in library timing context.</li>
+      
+      <li>Threshold voltage definition, body effect, and small-geometry effects that shift delay and leakage trends.</li>
+      
+      <li>CMOS inverter DC and switching behavior, sizing tradeoffs, and performance metrics used in logic design discussions.</li>
+      
+      <li>Static CMOS combinational and sequential building blocks, with a bridge to standard-cell based design flows.</li>
+      
+      <li>Static vs dynamic power components and common low-power thinking used later in synthesis and implementation.</li>
+      
+      <li>Timing concepts (setup, hold, skew, jitter) and how transistor-level behavior eventually appears in STA reports.</li>
+      
+    </ul>
+    
+
+    <h2>What you should be able to explain</h2>
+    <ul>
+      
+      <li>Explain how MOSFET behavior and threshold voltage shifts can change timing and leakage trends at the block level.</li>
+      
+      <li>Describe the CMOS inverter as the reference model for delay, power, and sizing tradeoffs in digital design.</li>
+      
+      <li>Connect device-level terminology to standard-cell, timing, and physical-design vocabulary used in interviews and project reviews.</li>
+      
+      <li>Summarize why scaling improves speed in some cases while making leakage and variation management harder.</li>
+      
+    </ul>
+
+    <h2>Review checklist before moving ahead</h2>
+    <ol>
+      
+      <li>Write a short comparison of static power and dynamic power with one example cause for each.</li>
+      
+      <li>List the MOSFET operating regions and note where digital switching spends most of its time conceptually.</li>
+      
+      <li>Describe body effect in plain language and where it may appear in timing intuition.</li>
+      
+      <li>Relate inverter sizing to delay/load tradeoff using one practical example.</li>
+      
+      <li>Define setup, hold, skew, and jitter before moving to CTS or STA guides.</li>
+      
+    </ol>
+
+    
+    <h2>Common watchouts</h2>
+    <ul>
+      
+      <li>Do not treat a MOSFET as an ideal switch when reasoning about leakage, delay, or variation at advanced nodes.</li>
+      
+      <li>Avoid mixing up threshold voltage reduction with unconditional speed improvement; power and leakage tradeoffs matter.</li>
+      
+      <li>Do not jump to STA conclusions without separating device effects from interconnect and clocking effects.</li>
+      
+    </ul>
+    
+
+    
+    <h2>Self-check prompts</h2>
+    <ul>
+      
+      <li>Why is the CMOS inverter used so often as the baseline gate for timing and power discussions?</li>
+      
+      <li>How can two cells with the same logic function show different PPA behavior?</li>
+      
+      <li>What changes in the physical design flow when leakage becomes a dominant concern?</li>
+      
+    </ul>
+    
+  </article>
+
+  <aside class="side-stack">
+    <section class="panel">
+      <h2>Entry requirements</h2>
+      <ul>
+        
+        <li>Basic digital logic gates</li>
+        
+        <li>Voltage/current basics</li>
+        
+        <li>Comfort reading simple circuit symbols</li>
+        
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Key terms to retain</h2>
+      <div class="chips">
+        
+        <span class="chip">CMOS</span>
+        
+        <span class="chip">MOSFET</span>
+        
+        <span class="chip">PN Junction</span>
+        
+        <span class="chip">Threshold Voltage</span>
+        
+        <span class="chip">Body Effect</span>
+        
+        <span class="chip">Static Power</span>
+        
+        <span class="chip">Dynamic Power</span>
+        
+        <span class="chip">STA Basics</span>
+        
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this page with</h2>
+      <ul>
+        <li><a href="/guides/#foundations">Back to Foundations</a></li>
+        <li><a href="/tracks/">Use a study track for sequencing</a></li>
+        <li><a href="/">Return to home</a></li>
+      </ul>
+    </section>
+  </aside>
+</section>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>VLSI PD Lab</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
+</body>
+</html>

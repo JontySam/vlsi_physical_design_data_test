@@ -1,38 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title or site.name }}</title>
-  {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}{% if title and site.name and title != site.name %} | {{ site.name }}{% endif %}</title>
+  <meta name="description" content="{{ description or site.description }}">
   {% if keywords %}<meta name="keywords" content="{{ keywords }}">{% endif %}
+  <meta name="theme-color" content="{{ site.themeColor }}">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="{{ og_type or 'website' }}">
-  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:title" content="{{ og_title or title or site.name }}">
-  <meta property="og:description" content="{{ og_description or description or site.description }}">
-  <meta property="og:image" content="{{ site.url }}{{ og_image or site.image }}">
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="twitter:title" content="{{ twitter_title or og_title or title or site.name }}">
-  <meta property="twitter:description" content="{{ twitter_description or og_description or description or site.description }}">
-  <meta property="twitter:image" content="{{ site.url }}{{ twitter_image or og_image or site.image }}">
-
   {% if robots %}<meta name="robots" content="{{ robots }}">{% endif %}
 
-  {{ head_extra | safe }}
-  <link rel="stylesheet" href="/main.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Poppins:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Poppins:wght@600;700&display=swap"></noscript>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:title" content="{{ title }}{% if title and site.name and title != site.name %} | {{ site.name }}{% endif %}">
+  <meta property="og:description" content="{{ description or site.description }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ site.image }}">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title }}{% if title and site.name and title != site.name %} | {{ site.name }}{% endif %}">
+  <meta name="twitter:description" content="{{ description or site.description }}">
+  <meta name="twitter:image" content="{{ site.url }}{{ site.image }}">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  {% if head_extra %}{{ head_extra | safe }}{% endif %}
 </head>
-<body class="{{ body_class or '' }}">
-  {{ content | safe }}
-  <script src="/main.js" defer></script>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>{{ site.name }}</strong>
+          <small>{{ site.tagline }}</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">{{ content | safe }}</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>{{ site.name }}</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
 </body>
 </html>

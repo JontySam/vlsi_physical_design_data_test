@@ -1,0 +1,74 @@
+---
+layout: layouts/base.njk
+title: VLSI PD Lab
+description: Lightweight VLSI physical design study notes with concise guides, checklists, and path-based learning.
+permalink: /
+priority: 1.0
+---
+<section class="hero shell">
+  <div>
+    <p class="eyebrow">Fast-loading test site | distinct from .top</p>
+    <h1>VLSI Physical Design Lab Notes</h1>
+    <p class="lede">This `.site` version uses a compact guide-and-track structure, shorter editorial copy, and minimal assets so it loads faster and does not mirror the `.top` site page-for-page.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/guides/">Browse Guides</a>
+      <a class="btn" href="/tracks/">Open Study Tracks</a>
+    </div>
+  </div>
+  <aside class="hero-card" aria-label="How this site differs">
+    <h2>What changed</h2>
+    <ul>
+      <li>Different site name and metadata (`VLSI PD Lab`)</li>
+      <li>New information architecture (`/guides` and `/tracks`)</li>
+      <li>Short checklist-driven notes instead of mirrored long articles</li>
+      <li>Lightweight CSS and no heavy UI JavaScript</li>
+    </ul>
+  </aside>
+</section>
+
+<section class="shell section">
+  <div class="section-head">
+    <h2>Guide Categories</h2>
+    <p>{{ topics | length }} compact notes organized for quick study sessions.</p>
+  </div>
+  <div class="category-grid">
+    {% for category in categories %}
+    <article class="panel">
+      <h3><a href="/guides/#{{ category.slug }}">{{ category.title }}</a></h3>
+      <p>{{ category.description }}</p>
+      <ul class="mini-list">
+        {% for topic in topics %}
+          {% if topic.category == category.slug %}
+        <li><a href="/guides/{{ topic.slug }}/">{{ topic.title }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="shell section">
+  <div class="section-head">
+    <h2>Study Tracks</h2>
+    <p>Use a sequence if you want faster progress than random browsing.</p>
+  </div>
+  <div class="track-grid">
+    {% for track in tracks %}
+    <article class="panel">
+      <h3><a href="/tracks/{{ track.slug }}/">{{ track.title }}</a></h3>
+      <p>{{ track.description }}</p>
+      <p class="meta">{{ track.steps | length }} steps</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="shell section">
+  <div class="section-head">
+    <h2>SEO Separation Note</h2>
+  </div>
+  <div class="callout">
+    <p>The `.site` test domain intentionally uses a different layout, shorter copy, and different URL paths than `.top` so search engines do not see it as a mirrored version of the production site.</p>
+  </div>
+</section>

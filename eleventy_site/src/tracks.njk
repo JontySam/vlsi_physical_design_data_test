@@ -1,0 +1,27 @@
+---
+layout: layouts/base.njk
+title: Study Tracks
+description: Sequenced VLSI physical design learning paths built from concise lab guides.
+permalink: /tracks/
+priority: 0.85
+---
+<section class="shell page-head">
+  <p class="eyebrow">Learning paths</p>
+  <h1>Study Tracks</h1>
+  <p class="lede">Curated sequences for faster progress depending on your goal: onboarding, synthesis handoff, or maintaining lab notes.</p>
+</section>
+
+<section class="shell section track-grid">
+  {% for track in tracks %}
+  <article class="panel">
+    <h2><a href="/tracks/{{ track.slug }}/">{{ track.title }}</a></h2>
+    <p>{{ track.description }}</p>
+    <p class="meta">{{ track.steps | length }} steps</p>
+    <ol class="track-steps">
+      {% for step in track.steps.slice(0, 4) %}
+      <li>{{ step.title }}</li>
+      {% endfor %}
+    </ol>
+  </article>
+  {% endfor %}
+</section>

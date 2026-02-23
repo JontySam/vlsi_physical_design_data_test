@@ -1,16 +1,44 @@
 ---
 permalink: /sitemap.xml
 layout: null
+sitemap: false
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{% for page in collections.all %}
-  {% if page.url and page.data.sitemap != false %}
   <url>
-    <loc>{{ site.url }}{{ page.url }}</loc>
-    {% if page.date %}<lastmod>{{ page.date | date("yyyy-LL-dd") }}</lastmod>{% endif %}
-    {% if page.data.priority %}<priority>{{ page.data.priority }}</priority>{% endif %}
+    <loc>{{ site.url }}/</loc>
+    <lastmod>{{ site.buildDate }}</lastmod>
+    <priority>1.0</priority>
   </url>
-  {% endif %}
+  <url>
+    <loc>{{ site.url }}/guides/</loc>
+    <lastmod>{{ site.buildDate }}</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/tracks/</loc>
+    <lastmod>{{ site.buildDate }}</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/about/</loc>
+    <lastmod>{{ site.buildDate }}</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+{% for topic in topics %}
+  <url>
+    <loc>{{ site.url }}/guides/{{ topic.slug }}/</loc>
+    <lastmod>{{ topic.updated or site.buildDate }}</lastmod>
+    <priority>0.75</priority>
+  </url>
+{% endfor %}
+
+{% for track in tracks %}
+  <url>
+    <loc>{{ site.url }}/tracks/{{ track.slug }}/</loc>
+    <lastmod>{{ site.buildDate }}</lastmod>
+    <priority>0.7</priority>
+  </url>
 {% endfor %}
 </urlset>

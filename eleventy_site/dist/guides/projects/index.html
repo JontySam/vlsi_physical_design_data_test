@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Implementation Case Notes Lab Note | VLSI PD Lab</title>
+  <meta name="description" content="A structured workspace for project-style implementation notes on the .site domain, inspired by the original project showcase but rewritten as a repeatable experiment log format.">
+  
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://www.vlsiphysicaldesign.site/guides/projects/">
+  
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI PD Lab">
+  <meta property="og:title" content="Implementation Case Notes Lab Note | VLSI PD Lab">
+  <meta property="og:description" content="A structured workspace for project-style implementation notes on the .site domain, inspired by the original project showcase but rewritten as a repeatable experiment log format.">
+  <meta property="og:url" content="https://www.vlsiphysicaldesign.site/guides/projects/">
+  <meta property="og:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Implementation Case Notes Lab Note | VLSI PD Lab">
+  <meta name="twitter:description" content="A structured workspace for project-style implementation notes on the .site domain, inspired by the original project showcase but rewritten as a repeatable experiment log format.">
+  <meta name="twitter:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>VLSI PD Lab</strong>
+          <small>Fast study notes and implementation checklists</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main"><section class="shell page-head">
+  <p class="eyebrow">Lab Workspace | Mixed</p>
+  <h1>Implementation Case Notes and Experiment Tracking</h1>
+  <p class="lede">A structured workspace for project-style implementation notes on the .site domain, inspired by the original project showcase but rewritten as a repeatable experiment log format.</p>
+  <p class="meta">Estimated review time: ~25 minutes | Updated 2026-02-18</p>
+</section>
+
+<section class="shell section two-col">
+  <article class="panel flow">
+    <h2>Design context and scope</h2>
+    <p>The original site had a project showcase page with example project listings. This lab version turns that concept into an engineering notebook format so you can document constraints, QoR changes, and observations without mirroring the production presentation.</p>
+
+    
+    <h2>Coverage map for this lab note</h2>
+    <ul>
+      
+      <li>How to convert a one-off project demo into a repeatable implementation case-note template.</li>
+      
+      <li>Defining project context: block type, goals, constraints, tool version, and assumptions.</li>
+      
+      <li>Capturing baseline metrics before experimentation (timing, area, power, congestion indicators).</li>
+      
+      <li>Recording each change step and the intended hypothesis, not just the command sequence.</li>
+      
+      <li>Documenting outcomes, regressions, and correlation issues across synthesis and PD stages.</li>
+      
+      <li>Retrospective sections for what to keep, what to roll back, and what requires deeper validation.</li>
+      
+    </ul>
+    
+
+    <h2>What you should be able to explain</h2>
+    <ul>
+      
+      <li>Create a project-note format that is useful for future debugging and interviews.</li>
+      
+      <li>Track implementation changes with enough context to compare runs fairly.</li>
+      
+      <li>Separate observations from assumptions so your conclusions remain testable.</li>
+      
+      <li>Maintain a .site test-space portfolio without duplicating the .top site structure.</li>
+      
+    </ul>
+
+    <h2>Review checklist before moving ahead</h2>
+    <ol>
+      
+      <li>Start each case note with design scope, revision ID, and tool environment.</li>
+      
+      <li>Capture baseline QoR before changing constraints or optimization settings.</li>
+      
+      <li>Log each experiment with expected benefit and measured outcome.</li>
+      
+      <li>Summarize regressions and suspected root causes, not just final results.</li>
+      
+      <li>End with next actions and validation gaps.</li>
+      
+    </ol>
+
+    
+    <h2>Common watchouts</h2>
+    <ul>
+      
+      <li>Project notes become useless if they only store screenshots and no assumptions or metric context.</li>
+      
+      <li>Comparing runs across different corners or libraries without noting it creates false conclusions.</li>
+      
+      <li>Do not publish proprietary details on a public test domain; keep examples sanitized.</li>
+      
+    </ul>
+    
+
+    
+    <h2>Self-check prompts</h2>
+    <ul>
+      
+      <li>What minimum information makes an implementation experiment reproducible?</li>
+      
+      <li>How do you separate a real QoR improvement from run-to-run noise?</li>
+      
+      <li>What should be redacted before posting a case note publicly?</li>
+      
+    </ul>
+    
+  </article>
+
+  <aside class="side-stack">
+    <section class="panel">
+      <h2>Entry requirements</h2>
+      <ul>
+        
+        <li>Basic PD flow familiarity</li>
+        
+        <li>Ability to read synthesis and implementation reports</li>
+        
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Key terms to retain</h2>
+      <div class="chips">
+        
+        <span class="chip">Case Notes</span>
+        
+        <span class="chip">Project Log</span>
+        
+        <span class="chip">QoR Tracking</span>
+        
+        <span class="chip">Experiment Design</span>
+        
+        <span class="chip">Implementation Review</span>
+        
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this page with</h2>
+      <ul>
+        <li><a href="/guides/#lab">Back to Lab Workspace</a></li>
+        <li><a href="/tracks/">Use a study track for sequencing</a></li>
+        <li><a href="/">Return to home</a></li>
+      </ul>
+    </section>
+  </aside>
+</section>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>VLSI PD Lab</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guides | VLSI PD Lab</title>
+  <meta name="description" content="Browse concise VLSI physical design lab guides grouped by topic area.">
+  
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://www.vlsiphysicaldesign.site/guides/">
+  
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI PD Lab">
+  <meta property="og:title" content="Guides | VLSI PD Lab">
+  <meta property="og:description" content="Browse concise VLSI physical design lab guides grouped by topic area.">
+  <meta property="og:url" content="https://www.vlsiphysicaldesign.site/guides/">
+  <meta property="og:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Guides | VLSI PD Lab">
+  <meta name="twitter:description" content="Browse concise VLSI physical design lab guides grouped by topic area.">
+  <meta name="twitter:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>VLSI PD Lab</strong>
+          <small>Fast study notes and implementation checklists</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main"><section class="shell page-head">
+  <p class="eyebrow">Guide library</p>
+  <h1>All Guides</h1>
+  <p class="lede">Short, checklist-driven notes for physical design study, implementation review, and interview preparation.</p>
+</section>
+
+<section class="shell section">
+  
+  <section id="foundations" class="stack-block">
+    <div class="section-head compact">
+      <h2>Foundations</h2>
+      <p>Device behavior, modeling concepts, and vocabulary that support later implementation and timing decisions.</p>
+    </div>
+    <div class="guide-grid">
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/cmos_fundamentals/">CMOS Fundamentals</a></h3>
+        <p>A rewritten foundation guide covering semiconductor behavior, PN junction intuition, MOS structures, inverter behavior, power, and timing concepts with direct relevance to later PD and STA decisions.</p>
+        <p class="meta">Beginner | ~45 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </section>
+  
+  <section id="logic" class="stack-block">
+    <div class="section-head compact">
+      <h2>Logic &amp; Handoff</h2>
+      <p>RTL-to-netlist concepts, optimization strategies, and handoff quality checks before physical design.</p>
+    </div>
+    <div class="guide-grid">
+      
+        
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/logic_synthesis/">Logic Synthesis</a></h3>
+        <p>A practical synthesis guide that covers flow stages, optimization logic, technology mapping, and handoff checks, rewritten for implementation-focused study rather than textbook sequencing.</p>
+        <p class="meta">Intermediate | ~50 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/advanced_logic_synthesis/">Advanced Logic Synthesis</a></h3>
+        <p>An advanced synthesis lab note covering physical-aware optimization, CCD, multibit banking, SAIF-driven power reduction, and Boolean transforms, rewritten as a decision guide for implementation handoff quality.</p>
+        <p class="meta">Advanced | ~60 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </section>
+  
+  <section id="inputs" class="stack-block">
+    <div class="section-head compact">
+      <h2>Inputs &amp; Setup</h2>
+      <p>Required files, constraints, and setup checks that reduce downstream debug noise.</p>
+    </div>
+    <div class="guide-grid">
+      
+        
+      
+        
+      
+        
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/pd_inputs/">Physical Design Inputs</a></h3>
+        <p>A setup-focused guide to PD inputs and library ecosystems, covering netlists, SDC, LEF and LIB, tech files, DEF, parasitics, power intent, and tool database setup with a practical startup checklist.</p>
+        <p class="meta">Beginner | ~40 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </section>
+  
+  <section id="implementation" class="stack-block">
+    <div class="section-head compact">
+      <h2>Implementation Flow</h2>
+      <p>Floorplan, placement, and clocking notes with a practical checklist-driven review approach.</p>
+    </div>
+    <div class="guide-grid">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/floorplan/">Floorplanning</a></h3>
+        <p>A floorplanning field note focused on decision quality: die and core sizing, aspect ratio, macro placement, halos and blockages, power planning, and early congestion and timing risk management.</p>
+        <p class="meta">Intermediate | ~50 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/placement/">Placement</a></h3>
+        <p>A placement guide organized around execution checkpoints: inputs, prechecks, global placement, legalization, detailed placement, congestion and timing analysis, and preparation for CTS and routing.</p>
+        <p class="meta">Intermediate | ~50 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/cts/">Clock Tree Synthesis</a></h3>
+        <p>A CTS guide reframed around clock-distribution decisions, covering metrics, workflow, clock architectures, low-power techniques, constraints, hierarchical CTS, and advanced-node physical risks.</p>
+        <p class="meta">Intermediate | ~55 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+        
+      
+        
+      
+    </div>
+  </section>
+  
+  <section id="lab" class="stack-block">
+    <div class="section-head compact">
+      <h2>Lab Workspace</h2>
+      <p>Case-note and reference-oriented pages kept separate from production content style.</p>
+    </div>
+    <div class="guide-grid">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/projects/">Implementation Case Notes</a></h3>
+        <p>A structured workspace for project-style implementation notes on the .site domain, inspired by the original project showcase but rewritten as a repeatable experiment log format.</p>
+        <p class="meta">Mixed | ~25 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+        
+      <article class="guide-card">
+        <h3><a href="/guides/work_sited/">Reference Index</a></h3>
+        <p>A lab-specific reference index that replaces the original long works-cited page format with a maintenance-oriented citation workflow for .site guides and case notes.</p>
+        <p class="meta">Mixed | ~20 min | Updated 2026-02-18</p>
+      </article>
+        
+      
+    </div>
+  </section>
+  
+</section>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>VLSI PD Lab</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
+</body>
+</html>

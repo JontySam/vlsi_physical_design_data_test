@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Floorplanning Lab Note | VLSI PD Lab</title>
+  <meta name="description" content="A floorplanning field note focused on decision quality: die and core sizing, aspect ratio, macro placement, halos and blockages, power planning, and early congestion and timing risk management.">
+  
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://www.vlsiphysicaldesign.site/guides/floorplan/">
+  
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI PD Lab">
+  <meta property="og:title" content="Floorplanning Lab Note | VLSI PD Lab">
+  <meta property="og:description" content="A floorplanning field note focused on decision quality: die and core sizing, aspect ratio, macro placement, halos and blockages, power planning, and early congestion and timing risk management.">
+  <meta property="og:url" content="https://www.vlsiphysicaldesign.site/guides/floorplan/">
+  <meta property="og:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Floorplanning Lab Note | VLSI PD Lab">
+  <meta name="twitter:description" content="A floorplanning field note focused on decision quality: die and core sizing, aspect ratio, macro placement, halos and blockages, power planning, and early congestion and timing risk management.">
+  <meta name="twitter:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>VLSI PD Lab</strong>
+          <small>Fast study notes and implementation checklists</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main"><section class="shell page-head">
+  <p class="eyebrow">Implementation Flow | Intermediate</p>
+  <h1>Floorplan Strategy: Macro Placement, Utilization, and Early Risk Control</h1>
+  <p class="lede">A floorplanning field note focused on decision quality: die and core sizing, aspect ratio, macro placement, halos and blockages, power planning, and early congestion and timing risk management.</p>
+  <p class="meta">Estimated review time: ~50 minutes | Updated 2026-02-18</p>
+</section>
+
+<section class="shell section two-col">
+  <article class="panel flow">
+    <h2>Design context and scope</h2>
+    <p>This guide keeps the scope of the original floorplanning article but reorganizes it around implementation decisions and qualification checks. The goal is to help you judge floorplan quality quickly before committing downstream runtime to placement and CTS.</p>
+
+    
+    <h2>Coverage map for this lab note</h2>
+    <ul>
+      
+      <li>Why floorplanning is a make-or-break stage and how it shapes timing, routability, power, and runtime.</li>
+      
+      <li>Pre-floorplan preparation: import checks, data sanity, partition boundaries, and assumptions to lock before iteration.</li>
+      
+      <li>Choosing die and core size, aspect ratio, and utilization targets based on block complexity and routing expectations.</li>
+      
+      <li>IO and pad placement considerations and their interaction with data flow and clock distribution paths.</li>
+      
+      <li>Core row setup, cell orientation conventions, and floorplan structures that influence later placement quality.</li>
+      
+      <li>Power planning dependencies (rings and straps strategy at a high level) and why they must be considered early.</li>
+      
+      <li>Macro placement strategy: proximity, channel spacing, halos, blockages, and congestion-aware arrangement.</li>
+      
+      <li>Timing-driven floorplan decisions and the handoff outputs expected by placement and CTS stages.</li>
+      
+      <li>Qualification checklist and consequences of a poor floorplan (congestion, timing churn, ECO pain).</li>
+      
+    </ul>
+    
+
+    <h2>What you should be able to explain</h2>
+    <ul>
+      
+      <li>Explain the tradeoff between utilization, routability margin, and timing ambition in a floorplan.</li>
+      
+      <li>Review macro placement choices using signal flow, congestion, and power routing considerations.</li>
+      
+      <li>Identify which floorplan issues must be fixed immediately versus tracked for post-placement refinement.</li>
+      
+      <li>Produce a repeatable floorplan signoff checklist for early implementation iterations.</li>
+      
+    </ul>
+
+    <h2>Review checklist before moving ahead</h2>
+    <ol>
+      
+      <li>Confirm die and core dimensions, aspect ratio, and utilization target are documented with rationale.</li>
+      
+      <li>Review macro adjacency and channel spacing against expected connectivity and route demand.</li>
+      
+      <li>Check halos and blockages are intentional and not masking a weak macro placement decision.</li>
+      
+      <li>Validate power-planning assumptions are compatible with macro and IO arrangement.</li>
+      
+      <li>Capture congestion and timing risk hotspots before moving to placement runs.</li>
+      
+    </ol>
+
+    
+    <h2>Common watchouts</h2>
+    <ul>
+      
+      <li>Over-optimizing utilization early often creates downstream congestion that costs more than the saved area.</li>
+      
+      <li>Halos and blockages can hide floorplan problems if used as a patch instead of a design choice.</li>
+      
+      <li>Macro placement that ignores dataflow or clocking topology usually increases iteration count later.</li>
+      
+    </ul>
+    
+
+    
+    <h2>Self-check prompts</h2>
+    <ul>
+      
+      <li>How would you defend an aspect-ratio choice to another PD engineer?</li>
+      
+      <li>When should you re-floorplan instead of trying to fix issues in placement?</li>
+      
+      <li>Which floorplan outputs are most critical for a clean handoff to placement?</li>
+      
+    </ul>
+    
+  </article>
+
+  <aside class="side-stack">
+    <section class="panel">
+      <h2>Entry requirements</h2>
+      <ul>
+        
+        <li>PD input setup basics</li>
+        
+        <li>Synthesis handoff awareness</li>
+        
+        <li>Basic timing path intuition</li>
+        
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Key terms to retain</h2>
+      <div class="chips">
+        
+        <span class="chip">Floorplanning</span>
+        
+        <span class="chip">Macro Placement</span>
+        
+        <span class="chip">Core Utilization</span>
+        
+        <span class="chip">Aspect Ratio</span>
+        
+        <span class="chip">Power Planning</span>
+        
+        <span class="chip">Halos</span>
+        
+        <span class="chip">Blockages</span>
+        
+        <span class="chip">Congestion</span>
+        
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this page with</h2>
+      <ul>
+        <li><a href="/guides/#implementation">Back to Implementation Flow</a></li>
+        <li><a href="/tracks/">Use a study track for sequencing</a></li>
+        <li><a href="/">Return to home</a></li>
+      </ul>
+    </section>
+  </aside>
+</section>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>VLSI PD Lab</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
+</body>
+</html>

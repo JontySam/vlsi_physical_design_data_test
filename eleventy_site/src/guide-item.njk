@@ -1,0 +1,95 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: topics
+  size: 1
+  alias: topic
+permalink: "/guides/{{ topic.slug }}/index.html"
+eleventyComputed:
+  title: "{{ topic.title }} Lab Note"
+  description: "{{ topic.summary }}"
+  priority: 0.75
+---
+<section class="shell page-head">
+  <p class="eyebrow">{{ topic.categoryTitle }} | {{ topic.level }}</p>
+  <h1>{{ topic.headline or topic.title }}</h1>
+  <p class="lede">{{ topic.summary }}</p>
+  <p class="meta">Estimated review time: ~{{ topic.estimatedMinutes }} minutes | Updated {{ topic.updated }}</p>
+</section>
+
+<section class="shell section two-col">
+  <article class="panel flow">
+    <h2>Design context and scope</h2>
+    <p>{{ topic.sourceDescription }}</p>
+
+    {% if topic.coverageMap %}
+    <h2>Coverage map for this lab note</h2>
+    <ul>
+      {% for item in topic.coverageMap %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h2>What you should be able to explain</h2>
+    <ul>
+      {% for item in topic.outcomes %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Review checklist before moving ahead</h2>
+    <ol>
+      {% for item in topic.checklist %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ol>
+
+    {% if topic.watchouts %}
+    <h2>Common watchouts</h2>
+    <ul>
+      {% for item in topic.watchouts %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if topic.reviewPrompts %}
+    <h2>Self-check prompts</h2>
+    <ul>
+      {% for item in topic.reviewPrompts %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </article>
+
+  <aside class="side-stack">
+    <section class="panel">
+      <h2>Entry requirements</h2>
+      <ul>
+        {% for item in topic.prerequisites %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Key terms to retain</h2>
+      <div class="chips">
+        {% for kw in topic.keywords %}
+        <span class="chip">{{ kw }}</span>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this page with</h2>
+      <ul>
+        <li><a href="/guides/#{{ topic.category }}">Back to {{ topic.categoryTitle }}</a></li>
+        <li><a href="/tracks/">Use a study track for sequencing</a></li>
+        <li><a href="/">Return to home</a></li>
+      </ul>
+    </section>
+  </aside>
+</section>

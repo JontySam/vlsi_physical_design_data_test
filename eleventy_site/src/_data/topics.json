@@ -1,0 +1,537 @@
+[
+    {
+        "slug":  "cmos_fundamentals",
+        "title":  "CMOS Fundamentals",
+        "category":  "foundations",
+        "categoryTitle":  "Foundations",
+        "level":  "Beginner",
+        "estimatedMinutes":  45,
+        "updated":  "2026-02-18",
+        "summary":  "A rewritten foundation guide covering semiconductor behavior, PN junction intuition, MOS structures, inverter behavior, power, and timing concepts with direct relevance to later PD and STA decisions.",
+        "sourceDescription":  "This lab note reframes the old long-form CMOS fundamentals page into a study-first structure. It keeps the same technical scope (device physics to timing context) but emphasizes how each concept affects implementation, timing closure, and power analysis conversations.",
+        "keywords":  [
+                         "CMOS",
+                         "MOSFET",
+                         "PN Junction",
+                         "Threshold Voltage",
+                         "Body Effect",
+                         "Static Power",
+                         "Dynamic Power",
+                         "STA Basics"
+                     ],
+        "prerequisites":  [
+                              "Basic digital logic gates",
+                              "Voltage/current basics",
+                              "Comfort reading simple circuit symbols"
+                          ],
+        "outcomes":  [
+                         "Explain how MOSFET behavior and threshold voltage shifts can change timing and leakage trends at the block level.",
+                         "Describe the CMOS inverter as the reference model for delay, power, and sizing tradeoffs in digital design.",
+                         "Connect device-level terminology to standard-cell, timing, and physical-design vocabulary used in interviews and project reviews.",
+                         "Summarize why scaling improves speed in some cases while making leakage and variation management harder."
+                     ],
+        "checklist":  [
+                          "Write a short comparison of static power and dynamic power with one example cause for each.",
+                          "List the MOSFET operating regions and note where digital switching spends most of its time conceptually.",
+                          "Describe body effect in plain language and where it may appear in timing intuition.",
+                          "Relate inverter sizing to delay/load tradeoff using one practical example.",
+                          "Define setup, hold, skew, and jitter before moving to CTS or STA guides."
+                      ],
+        "headline":  "CMOS Device Behavior for Physical Design Engineers",
+        "coverageMap":  [
+                            "Semiconductor conduction basics and how charge movement translates to switching behavior.",
+                            "PN junction equilibrium and bias conditions, including why junction behavior matters in parasitics and leakage discussions.",
+                            "MOS capacitor and MOSFET structure, operating regions, and current-voltage intuition used in library timing context.",
+                            "Threshold voltage definition, body effect, and small-geometry effects that shift delay and leakage trends.",
+                            "CMOS inverter DC and switching behavior, sizing tradeoffs, and performance metrics used in logic design discussions.",
+                            "Static CMOS combinational and sequential building blocks, with a bridge to standard-cell based design flows.",
+                            "Static vs dynamic power components and common low-power thinking used later in synthesis and implementation.",
+                            "Timing concepts (setup, hold, skew, jitter) and how transistor-level behavior eventually appears in STA reports."
+                        ],
+        "watchouts":  [
+                          "Do not treat a MOSFET as an ideal switch when reasoning about leakage, delay, or variation at advanced nodes.",
+                          "Avoid mixing up threshold voltage reduction with unconditional speed improvement; power and leakage tradeoffs matter.",
+                          "Do not jump to STA conclusions without separating device effects from interconnect and clocking effects."
+                      ],
+        "reviewPrompts":  [
+                              "Why is the CMOS inverter used so often as the baseline gate for timing and power discussions?",
+                              "How can two cells with the same logic function show different PPA behavior?",
+                              "What changes in the physical design flow when leakage becomes a dominant concern?"
+                          ]
+    },
+    {
+        "slug":  "logic_synthesis",
+        "title":  "Logic Synthesis",
+        "category":  "logic",
+        "categoryTitle":  "Logic \u0026 Handoff",
+        "level":  "Intermediate",
+        "estimatedMinutes":  50,
+        "updated":  "2026-02-18",
+        "summary":  "A practical synthesis guide that covers flow stages, optimization logic, technology mapping, and handoff checks, rewritten for implementation-focused study rather than textbook sequencing.",
+        "sourceDescription":  "This page keeps the topic coverage from the original logic synthesis article (goals, stages, optimization, mapping, and checks) but recasts it as a handoff-quality guide for physical design learners who need to read synthesis results critically.",
+        "keywords":  [
+                         "Logic Synthesis",
+                         "RTL",
+                         "Gate-level Netlist",
+                         "Technology Mapping",
+                         "Constraints",
+                         "PPA",
+                         "QoR",
+                         "Verification"
+                     ],
+        "prerequisites":  [
+                              "RTL basics",
+                              "Combinational/sequential logic concepts",
+                              "Intro timing terminology"
+                          ],
+        "outcomes":  [
+                         "Describe the synthesis flow in terms of deliverables and decisions, not just tool commands.",
+                         "Identify which reports and warnings should block a handoff to physical design.",
+                         "Explain how constraints shape optimization behavior and why poor SDC quality produces misleading QoR.",
+                         "Recognize the difference between a synthesis improvement and a change that merely shifts complexity downstream."
+                     ],
+        "checklist":  [
+                          "Confirm library set, corners, and operating conditions used for synthesis are documented.",
+                          "Review timing, area, and power summary reports before looking at detailed violations.",
+                          "Check constraint coverage (clocks, IO delays, exceptions) and note intentional assumptions.",
+                          "Inspect major warnings: unmapped logic, inferred latches, constant nets, or black-box issues.",
+                          "Record handoff notes for PD: expected critical paths, high-fanout nets, and constraint caveats."
+                      ],
+        "headline":  "RTL-to-Gates Synthesis and Handoff Readiness",
+        "coverageMap":  [
+                            "What synthesis is trying to optimize and how timing, area, power, and DFT goals compete.",
+                            "Typical synthesis stages from RTL elaboration through optimization to final library-mapped netlist generation.",
+                            "Inputs and outputs: RTL, libraries, constraints, operating conditions, reports, and gate-level netlist artifacts.",
+                            "Logic optimization approaches including two-level and multi-level transformations and when they matter in practice.",
+                            "Technology mapping workflow: matching, covering, and library cell selection under constraints.",
+                            "Physical-aware and power-aware synthesis concepts, including why early optimization can help or hurt downstream PD.",
+                            "Pre-synthesis and post-synthesis qualification checks before handing off to floorplan and placement teams.",
+                            "Where synthesis sits relative to HLS and domain-specific flows in the broader EDA ecosystem."
+                        ],
+        "watchouts":  [
+                          "A clean netlist is not enough; a weak constraint set can produce a formally valid but physically difficult handoff.",
+                          "Do not compare QoR across runs without checking whether libraries, corners, or optimization priorities changed.",
+                          "Aggressive synthesis cleanup can hide structural issues that later reappear during placement or CTS."
+                      ],
+        "reviewPrompts":  [
+                              "Why are constraints often more important than optimization switches in synthesis quality?",
+                              "What would you ask for before accepting a synthesis handoff into floorplanning?",
+                              "When should a fix remain in synthesis versus being deferred to physical implementation?"
+                          ]
+    },
+    {
+        "slug":  "advanced_logic_synthesis",
+        "title":  "Advanced Logic Synthesis",
+        "category":  "logic",
+        "categoryTitle":  "Logic \u0026 Handoff",
+        "level":  "Advanced",
+        "estimatedMinutes":  60,
+        "updated":  "2026-02-18",
+        "summary":  "An advanced synthesis lab note covering physical-aware optimization, CCD, multibit banking, SAIF-driven power reduction, and Boolean transforms, rewritten as a decision guide for implementation handoff quality.",
+        "sourceDescription":  "This guide condenses the original advanced synthesis and physical implementation article into a review-oriented format. It preserves the major optimization families and flow stages while focusing on intent, risk, and validation strategy instead of copying the source narrative.",
+        "keywords":  [
+                         "Physical Synthesis",
+                         "CCD",
+                         "Useful Skew",
+                         "Multibit Banking",
+                         "Debanking",
+                         "SAIF",
+                         "Clock Gating",
+                         "Area Recovery"
+                     ],
+        "prerequisites":  [
+                              "Logic synthesis fundamentals",
+                              "Physical design flow overview",
+                              "Basic STA and power report interpretation"
+                          ],
+        "outcomes":  [
+                         "Classify advanced synthesis techniques by the problem they target (timing, area, power, or physical correlation).",
+                         "Explain when physical-aware synthesis improves downstream implementation versus when it creates placement or routing friction.",
+                         "Prepare a validation plan for aggressive transformations such as multibit banking, CCD, or power-driven remapping.",
+                         "Communicate rollback criteria when advanced optimizations reduce robustness or debug visibility."
+                     ],
+        "checklist":  [
+                          "Document which advanced features were enabled and why (CCD, multibit, SAIF, area recovery, etc.).",
+                          "Compare QoR before and after transforms using consistent corners and constraints.",
+                          "Review paths with large slack redistribution to ensure no hidden hold or routeability risk was introduced.",
+                          "Check multibit conversions for placement and legalization implications plus ECO impact.",
+                          "Validate power changes against activity assumptions and confirm clock-gating logic remains functionally intended.",
+                          "Capture a rollback point before enabling another aggressive optimization pass."
+                      ],
+        "headline":  "Physical-Aware Synthesis Optimization and Pre-Implementation Tradeoffs",
+        "coverageMap":  [
+                            "Optimization goals, prerequisites, and sign-off style QoR metrics used to decide whether advanced transforms are worth it.",
+                            "Front-end transforms: generic Boolean translation, boundary optimization, constant propagation, and hierarchy control.",
+                            "Datapath and MUX optimizations, sequential mapping, DFT-aware choices, register replication, and register merging tradeoffs.",
+                            "Area recovery steps (downsizing and cleanup) and the risk of eroding timing margin before implementation.",
+                            "Unified physical synthesis flow, early data checks, and why setup quality determines optimization usefulness.",
+                            "Concurrent clock-data optimization (CCD), useful skew strategy, and slack balancing behavior across path groups.",
+                            "Multibit banking and debanking controls from RTL inference through physical realization and ECO implications.",
+                            "SAIF-driven power optimization, clock gating, self-gating ideas, and IR-drop-aware thinking during synthesis.",
+                            "Two-level and multi-level Boolean optimization review for timing, area, and power closure trade studies."
+                        ],
+        "watchouts":  [
+                          "Physical-aware synthesis is only as good as the floorplan and constraint assumptions it receives.",
+                          "Multibit banking can improve power and area but complicate ECO flexibility, placement freedom, and debugging.",
+                          "Power optimizations based on weak or stale activity data can mislead decisions and hurt timing correlation."
+                      ],
+        "reviewPrompts":  [
+                              "How would you justify enabling CCD for one block but not another?",
+                              "What evidence shows a multibit change is truly beneficial after placement, not just during synthesis?",
+                              "Which advanced optimizations should be revisited after early physical feedback?"
+                          ]
+    },
+    {
+        "slug":  "pd_inputs",
+        "title":  "Physical Design Inputs",
+        "category":  "inputs",
+        "categoryTitle":  "Inputs \u0026 Setup",
+        "level":  "Beginner",
+        "estimatedMinutes":  40,
+        "updated":  "2026-02-18",
+        "summary":  "A setup-focused guide to PD inputs and library ecosystems, covering netlists, SDC, LEF and LIB, tech files, DEF, parasitics, power intent, and tool database setup with a practical startup checklist.",
+        "sourceDescription":  "This page reframes the original PD inputs article into a startup and sanity-check guide. It keeps the same data categories (logical, physical, timing, technology, and tool databases) but emphasizes dependency order and validation before the first implementation run.",
+        "keywords":  [
+                         "PD Inputs",
+                         "Netlist",
+                         "SDC",
+                         "LEF",
+                         "LIB",
+                         "DEF",
+                         "Tech LEF",
+                         "UPF",
+                         "Milkyway",
+                         "NDM"
+                     ],
+        "prerequisites":  [
+                              "ASIC flow overview",
+                              "Basic synthesis handoff concepts",
+                              "Familiarity with file-based tool flows"
+                          ],
+        "outcomes":  [
+                         "List the minimum required files to start a PD block and explain what each one contributes.",
+                         "Differentiate LEF, LIB, DEF, and tech files by role and typical failure mode when mismatched.",
+                         "Create a setup-order checklist that reduces tool ingestion errors and version confusion.",
+                         "Recognize when missing parasitic or power-intent data changes the scope of valid analysis."
+                     ],
+        "checklist":  [
+                          "Verify netlist revision, SDC revision, and library versions are synchronized and documented.",
+                          "Check LEF and LIB naming consistency and confirm cell variants referenced by the netlist exist in libraries.",
+                          "Confirm technology, track, and parasitic files match the intended process and metal stack.",
+                          "Load libraries before design import and record any unresolved references immediately.",
+                          "Document optional inputs (UPF, extracted parasitics, NDR constraints) and whether they are in scope for the run."
+                      ],
+        "headline":  "Physical Design Input Stack and Setup Integrity Checks",
+        "coverageMap":  [
+                            "High-level view of PD input pillars: logical netlist, constraints, libraries, and technology and interconnect data.",
+                            "Gate-level netlist and constraint files as the functional and performance contract for implementation tools.",
+                            "Technology files, tech LEF, and interconnect and parasitic data that define physical rules and wire behavior.",
+                            "Standard-cell library taxonomy and why multiple cell classes exist for PPA tradeoffs.",
+                            "LEF and Liberty as complementary physical and timing and power views of the same cells.",
+                            "DEF as a design snapshot and exchange format during implementation iterations.",
+                            "Tool-native database environments (Milkyway and NDM style) and library-type organization inside tool setups.",
+                            "Power intent (UPF) and CTS-related constraints that extend the baseline setup beyond netlist plus SDC.",
+                            "Practical first-run sequencing, including why libraries and technology data must load before design import."
+                        ],
+        "watchouts":  [
+                          "Most early PD failures come from data mismatch, not tool quality. Version tracking matters.",
+                          "A successful import does not guarantee valid timing or power correlation if corners or libraries are wrong.",
+                          "Do not treat LEF and LIB mismatches as minor warnings; they can invalidate placement, timing, and routing assumptions."
+                      ],
+        "reviewPrompts":  [
+                              "What breaks first when the netlist and library set are out of sync?",
+                              "Why is load order important in ICC2-style setups?",
+                              "When is it acceptable to proceed without extracted parasitics or full UPF data?"
+                          ]
+    },
+    {
+        "slug":  "floorplan",
+        "title":  "Floorplanning",
+        "category":  "implementation",
+        "categoryTitle":  "Implementation Flow",
+        "level":  "Intermediate",
+        "estimatedMinutes":  50,
+        "updated":  "2026-02-18",
+        "summary":  "A floorplanning field note focused on decision quality: die and core sizing, aspect ratio, macro placement, halos and blockages, power planning, and early congestion and timing risk management.",
+        "sourceDescription":  "This guide keeps the scope of the original floorplanning article but reorganizes it around implementation decisions and qualification checks. The goal is to help you judge floorplan quality quickly before committing downstream runtime to placement and CTS.",
+        "keywords":  [
+                         "Floorplanning",
+                         "Macro Placement",
+                         "Core Utilization",
+                         "Aspect Ratio",
+                         "Power Planning",
+                         "Halos",
+                         "Blockages",
+                         "Congestion"
+                     ],
+        "prerequisites":  [
+                              "PD input setup basics",
+                              "Synthesis handoff awareness",
+                              "Basic timing path intuition"
+                          ],
+        "outcomes":  [
+                         "Explain the tradeoff between utilization, routability margin, and timing ambition in a floorplan.",
+                         "Review macro placement choices using signal flow, congestion, and power routing considerations.",
+                         "Identify which floorplan issues must be fixed immediately versus tracked for post-placement refinement.",
+                         "Produce a repeatable floorplan signoff checklist for early implementation iterations."
+                     ],
+        "checklist":  [
+                          "Confirm die and core dimensions, aspect ratio, and utilization target are documented with rationale.",
+                          "Review macro adjacency and channel spacing against expected connectivity and route demand.",
+                          "Check halos and blockages are intentional and not masking a weak macro placement decision.",
+                          "Validate power-planning assumptions are compatible with macro and IO arrangement.",
+                          "Capture congestion and timing risk hotspots before moving to placement runs."
+                      ],
+        "headline":  "Floorplan Strategy: Macro Placement, Utilization, and Early Risk Control",
+        "coverageMap":  [
+                            "Why floorplanning is a make-or-break stage and how it shapes timing, routability, power, and runtime.",
+                            "Pre-floorplan preparation: import checks, data sanity, partition boundaries, and assumptions to lock before iteration.",
+                            "Choosing die and core size, aspect ratio, and utilization targets based on block complexity and routing expectations.",
+                            "IO and pad placement considerations and their interaction with data flow and clock distribution paths.",
+                            "Core row setup, cell orientation conventions, and floorplan structures that influence later placement quality.",
+                            "Power planning dependencies (rings and straps strategy at a high level) and why they must be considered early.",
+                            "Macro placement strategy: proximity, channel spacing, halos, blockages, and congestion-aware arrangement.",
+                            "Timing-driven floorplan decisions and the handoff outputs expected by placement and CTS stages.",
+                            "Qualification checklist and consequences of a poor floorplan (congestion, timing churn, ECO pain)."
+                        ],
+        "watchouts":  [
+                          "Over-optimizing utilization early often creates downstream congestion that costs more than the saved area.",
+                          "Halos and blockages can hide floorplan problems if used as a patch instead of a design choice.",
+                          "Macro placement that ignores dataflow or clocking topology usually increases iteration count later."
+                      ],
+        "reviewPrompts":  [
+                              "How would you defend an aspect-ratio choice to another PD engineer?",
+                              "When should you re-floorplan instead of trying to fix issues in placement?",
+                              "Which floorplan outputs are most critical for a clean handoff to placement?"
+                          ]
+    },
+    {
+        "slug":  "placement",
+        "title":  "Placement",
+        "category":  "implementation",
+        "categoryTitle":  "Implementation Flow",
+        "level":  "Intermediate",
+        "estimatedMinutes":  50,
+        "updated":  "2026-02-18",
+        "summary":  "A placement guide organized around execution checkpoints: inputs, prechecks, global placement, legalization, detailed placement, congestion and timing analysis, and preparation for CTS and routing.",
+        "sourceDescription":  "This lab note reworks the original placement article into a debug-oriented sequence. It keeps the same scope (stages, algorithms, optimization, and validation) while focusing on the practical questions asked during repeated placement runs.",
+        "keywords":  [
+                         "Placement",
+                         "Global Placement",
+                         "Legalization",
+                         "Detailed Placement",
+                         "Congestion",
+                         "Routability",
+                         "HFNS",
+                         "Pre-CTS Optimization"
+                     ],
+        "prerequisites":  [
+                              "Floorplanning basics",
+                              "PD inputs and library consistency",
+                              "Basic timing and congestion terminology"
+                          ],
+        "outcomes":  [
+                         "Describe the purpose and expected outputs of global placement, legalization, and detailed placement.",
+                         "Interpret placement reports to separate timing problems from congestion and floorplan root causes.",
+                         "Build a run-to-run comparison method using a small set of consistent placement metrics.",
+                         "Explain why a placement that looks timing-good can still fail in CTS or routing."
+                     ],
+        "checklist":  [
+                          "Verify pre-placement setup (libraries, constraints, floorplan, special cells) before comparing QoR.",
+                          "Review congestion map, density hotspots, and worst path groups after global placement.",
+                          "Check legalization side effects on displacement and local density.",
+                          "Inspect pre-CTS optimization actions (HFNS, buffering, resizing) for intended impact.",
+                          "Record placement risks that must be tracked in CTS and routing, not just current WNS or TNS."
+                      ],
+        "headline":  "Placement Flow: From Global Placement to Detailed Optimization",
+        "coverageMap":  [
+                            "Placement goals and strategic priorities: timing, routability, density balance, and legal manufacturable placement.",
+                            "Inputs required by placement and the pre-placement checks that prevent misleading optimization results.",
+                            "Special and pre-placed cells (macros, endcaps, tap cells, and related structures) and why they shape the search space.",
+                            "Global placement as coarse optimization for wirelength, timing, and routability before exact legal coordinates.",
+                            "Legalization stage and the rules it enforces while preserving as much QoR as possible.",
+                            "Detailed placement for local improvements, spacing compliance, and timing and routability refinement.",
+                            "Placement optimization toolkit (buffering, resizing, HFNS, restructuring) and pre-CTS tradeoffs.",
+                            "Post-placement qualification using congestion, timing, density, and report-based review.",
+                            "How placement quality affects CTS and routing closure, especially at advanced nodes."
+                        ],
+        "watchouts":  [
+                          "Do not compare placement runs using only WNS; congestion and density often predict later failures better.",
+                          "Legalization fixes can silently degrade timing or increase route pressure if not reviewed.",
+                          "HFNS and buffering can solve one metric while increasing power or CTS complexity."
+                      ],
+        "reviewPrompts":  [
+                              "What metrics do you use to decide whether a placement run is worth continuing?",
+                              "When does a congestion issue point back to floorplanning instead of placement settings?",
+                              "How would you explain legalization to someone who only looks at timing reports?"
+                          ]
+    },
+    {
+        "slug":  "cts",
+        "title":  "Clock Tree Synthesis",
+        "category":  "implementation",
+        "categoryTitle":  "Implementation Flow",
+        "level":  "Intermediate",
+        "estimatedMinutes":  55,
+        "updated":  "2026-02-18",
+        "summary":  "A CTS guide reframed around clock-distribution decisions, covering metrics, workflow, clock architectures, low-power techniques, constraints, hierarchical CTS, and advanced-node physical risks.",
+        "sourceDescription":  "This page keeps the breadth of the original CTS deep dive while rewriting it into a review and debugging format. It focuses on how engineers evaluate skew, latency, buffering strategy, topology choices, and post-CTS risks before routing signoff.",
+        "keywords":  [
+                         "CTS",
+                         "Clock Tree Synthesis",
+                         "Clock Skew",
+                         "Insertion Delay",
+                         "Clock Mesh",
+                         "MSCTS",
+                         "NDR",
+                         "OCV",
+                         "EM"
+                     ],
+        "prerequisites":  [
+                              "Placement flow basics",
+                              "STA terminology (setup/hold/skew/jitter)",
+                              "Clock definition and constraints basics"
+                          ],
+        "outcomes":  [
+                         "Explain CTS objectives beyond skew minimization, including power, routability, and robustness concerns.",
+                         "Evaluate whether a CTS result is ready for routing based on metrics, exceptions, and physical feasibility.",
+                         "Differentiate clock topology choices and when a design may need tree, mesh, or multi-source strategies.",
+                         "Recognize CTS fixes that improve setup but create hold, power, or routeability side effects."
+                     ],
+        "checklist":  [
+                          "Confirm clock definitions, generated clocks, and exceptions are intentional before CTS starts.",
+                          "Review insertion delay and skew metrics by clock and domain, not only top-level summaries.",
+                          "Check gating-related paths and clock-gating checks after CTS optimization.",
+                          "Inspect NDR usage and clock routing assumptions for EM and robustness impact.",
+                          "Record post-CTS risks to watch in routing and post-route STA (hold, OCV sensitivity, congestion)."
+                      ],
+        "headline":  "Clock Distribution Planning and CTS Debug Fundamentals",
+        "coverageMap":  [
+                            "Clock distribution objectives and core metrics: skew, latency and insertion delay, jitter sensitivity, and power impact.",
+                            "Pre-CTS inputs and validation checks, including clock definitions, exceptions, and floorplan and placement readiness.",
+                            "CTS construction workflow, buffering strategy, and post-CTS optimization loops.",
+                            "Clock topology options: conventional trees, mesh, multi-source CTS, and hybrid approaches with tradeoffs.",
+                            "Low-power CTS thinking: clock gating awareness, gating placement implications, and additional power reduction tactics.",
+                            "Constraint handling in CTS, including SDC dependency, NDR usage, and clock-tree exceptions.",
+                            "Hierarchical CTS concepts (drop points, tap points, staged distribution) for larger and high-performance designs.",
+                            "Advanced-node issues such as EM on clock nets, OCV sensitivity, and interconnect-dominated delay behavior."
+                        ],
+        "watchouts":  [
+                          "Over-buffering may reduce skew locally while increasing power, congestion, and routing complexity.",
+                          "CTS quality depends heavily on placement readiness; poor placement causes artificial CTS churn.",
+                          "Clock exceptions and constraints can hide issues if not reviewed domain by domain."
+                      ],
+        "reviewPrompts":  [
+                              "Why is low skew alone not enough to call CTS successful?",
+                              "When might a mesh or multi-source approach be justified over a conventional tree?",
+                              "How do EM and OCV concerns change CTS decisions at advanced nodes?"
+                          ]
+    },
+    {
+        "slug":  "projects",
+        "title":  "Implementation Case Notes",
+        "category":  "lab",
+        "categoryTitle":  "Lab Workspace",
+        "level":  "Mixed",
+        "estimatedMinutes":  25,
+        "updated":  "2026-02-18",
+        "summary":  "A structured workspace for project-style implementation notes on the .site domain, inspired by the original project showcase but rewritten as a repeatable experiment log format.",
+        "sourceDescription":  "The original site had a project showcase page with example project listings. This lab version turns that concept into an engineering notebook format so you can document constraints, QoR changes, and observations without mirroring the production presentation.",
+        "keywords":  [
+                         "Case Notes",
+                         "Project Log",
+                         "QoR Tracking",
+                         "Experiment Design",
+                         "Implementation Review"
+                     ],
+        "prerequisites":  [
+                              "Basic PD flow familiarity",
+                              "Ability to read synthesis and implementation reports"
+                          ],
+        "outcomes":  [
+                         "Create a project-note format that is useful for future debugging and interviews.",
+                         "Track implementation changes with enough context to compare runs fairly.",
+                         "Separate observations from assumptions so your conclusions remain testable.",
+                         "Maintain a .site test-space portfolio without duplicating the .top site structure."
+                     ],
+        "checklist":  [
+                          "Start each case note with design scope, revision ID, and tool environment.",
+                          "Capture baseline QoR before changing constraints or optimization settings.",
+                          "Log each experiment with expected benefit and measured outcome.",
+                          "Summarize regressions and suspected root causes, not just final results.",
+                          "End with next actions and validation gaps."
+                      ],
+        "headline":  "Implementation Case Notes and Experiment Tracking",
+        "coverageMap":  [
+                            "How to convert a one-off project demo into a repeatable implementation case-note template.",
+                            "Defining project context: block type, goals, constraints, tool version, and assumptions.",
+                            "Capturing baseline metrics before experimentation (timing, area, power, congestion indicators).",
+                            "Recording each change step and the intended hypothesis, not just the command sequence.",
+                            "Documenting outcomes, regressions, and correlation issues across synthesis and PD stages.",
+                            "Retrospective sections for what to keep, what to roll back, and what requires deeper validation."
+                        ],
+        "watchouts":  [
+                          "Project notes become useless if they only store screenshots and no assumptions or metric context.",
+                          "Comparing runs across different corners or libraries without noting it creates false conclusions.",
+                          "Do not publish proprietary details on a public test domain; keep examples sanitized."
+                      ],
+        "reviewPrompts":  [
+                              "What minimum information makes an implementation experiment reproducible?",
+                              "How do you separate a real QoR improvement from run-to-run noise?",
+                              "What should be redacted before posting a case note publicly?"
+                          ]
+    },
+    {
+        "slug":  "work_sited",
+        "title":  "Reference Index",
+        "category":  "lab",
+        "categoryTitle":  "Lab Workspace",
+        "level":  "Mixed",
+        "estimatedMinutes":  20,
+        "updated":  "2026-02-18",
+        "summary":  "A lab-specific reference index that replaces the original long works-cited page format with a maintenance-oriented citation workflow for .site guides and case notes.",
+        "sourceDescription":  "The production site includes a consolidated works-cited page grouped by topic. This .site version keeps the idea of centralized references but reframes it as a process guide for attribution, source hygiene, and topic-tagged note maintenance.",
+        "keywords":  [
+                         "References",
+                         "Works Cited",
+                         "Citation Workflow",
+                         "Source Tracking",
+                         "Documentation Hygiene"
+                     ],
+        "prerequisites":  [
+                              "None"
+                          ],
+        "outcomes":  [
+                         "Build a consistent citation format for future guides and case notes.",
+                         "Organize sources so readers can trace which topic each reference supports.",
+                         "Maintain a clean separation between test-site references and production-site citation pages.",
+                         "Reduce broken links and missing attributions over time."
+                     ],
+        "checklist":  [
+                          "Record source title, publisher or author, URL, and access date for each entry.",
+                          "Tag each source by topic and content type (doc, paper, tutorial, article).",
+                          "Note whether the source is primary or secondary when possible.",
+                          "Review stored links on a schedule and replace dead URLs.",
+                          "Update guide pages when a source change affects terminology or claims."
+                      ],
+        "headline":  "Reference Index and Citation Workflow for Lab Notes",
+        "coverageMap":  [
+                            "How to maintain one reference index for multiple technical guides without duplicating citations page by page.",
+                            "Source grouping by topic (CMOS, synthesis, floorplan, placement, CTS, and others) to match study-note organization.",
+                            "Minimum citation fields for engineering notes: title, source, URL, access date, and topic tags.",
+                            "How to distinguish primary sources, tool documentation, educational summaries, and secondary explanations.",
+                            "Periodic link review and update workflow to reduce link rot in public study sites.",
+                            "A clean process for adding new sources while keeping .site and .top documentation independent."
+                        ],
+        "watchouts":  [
+                          "Do not mix test-site source lists with production citations if the content is intentionally different.",
+                          "Secondary summaries are useful, but rely on primary documentation for tool behavior and definitions when possible.",
+                          "Link-only citations without access dates make later audits harder."
+                      ],
+        "reviewPrompts":  [
+                              "What makes a citation workflow scalable when the number of guides grows?",
+                              "When should a source be removed or replaced in a technical note site?",
+                              "How can topic tags improve maintenance and internal content updates?"
+                          ]
+    }
+]

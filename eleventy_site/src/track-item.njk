@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: tracks
+  size: 1
+  alias: track
+permalink: "/tracks/{{ track.slug }}/index.html"
+eleventyComputed:
+  title: "{{ track.title }}"
+  description: "{{ track.description }}"
+  priority: 0.7
+---
+<section class="shell page-head">
+  <p class="eyebrow">Study track</p>
+  <h1>{{ track.title }}</h1>
+  <p class="lede">{{ track.description }}</p>
+  <p class="meta">{{ track.steps | length }} steps</p>
+</section>
+
+<section class="shell section">
+  <ol class="track-flow">
+    {% for step in track.steps %}
+    <li class="panel track-step-row">
+      <p class="meta">{{ loop.index }} | {{ step.categoryTitle }} | ~{{ step.estimatedMinutes }} min</p>
+      <h2><a href="/guides/{{ step.slug }}/">{{ step.title }}</a></h2>
+      <p>{{ step.summary }}</p>
+    </li>
+    {% endfor %}
+  </ol>
+</section>

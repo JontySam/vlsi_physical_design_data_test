@@ -1,0 +1,114 @@
+[
+  {
+    "slug": "starter-path",
+    "title": "Starter Path",
+    "description": "Quick onboarding path for learning the basic PD vocabulary and major implementation stages.",
+    "steps": [
+      {
+        "slug": "cmos_fundamentals",
+        "title": "CMOS Fundamentals",
+        "categoryTitle": "Foundations",
+        "estimatedMinutes": 35,
+        "summary": "Foundation note for CMOS behavior and MOSFET concepts with focus on intuition, vocabulary, and why device effects matter later in timing and layout decisions."
+      },
+      {
+        "slug": "logic_synthesis",
+        "title": "Logic Synthesis",
+        "categoryTitle": "Logic & Handoff",
+        "estimatedMinutes": 45,
+        "summary": "Synthesis-focused note describing the path from RTL intent to implementation-ready netlists, with emphasis on constraints, optimization goals, and handoff quality."
+      },
+      {
+        "slug": "pd_inputs",
+        "title": "Physical Design Inputs",
+        "categoryTitle": "Inputs & Setup",
+        "estimatedMinutes": 30,
+        "summary": "Input-readiness note clarifying required design files, constraints, and library consistency checks that prevent downstream physical design noise."
+      },
+      {
+        "slug": "floorplan",
+        "title": "Floorplanning",
+        "categoryTitle": "Implementation Flow",
+        "estimatedMinutes": 40,
+        "summary": "Execution-oriented note for floorplanning with focus on objectives, macro placement reasoning, power planning dependencies, and early congestion risk control."
+      },
+      {
+        "slug": "placement",
+        "title": "Placement",
+        "categoryTitle": "Implementation Flow",
+        "estimatedMinutes": 40,
+        "summary": "Placement lab note centered on timing/routability tradeoffs, legalization quality, and the debug loop between congestion signals and optimization moves."
+      },
+      {
+        "slug": "cts",
+        "title": "Clock Tree Synthesis",
+        "categoryTitle": "Implementation Flow",
+        "estimatedMinutes": 45,
+        "summary": "CTS note focused on skew/latency tradeoffs, buffering strategy, and the practical checks needed before and after clock tree optimization."
+      }
+    ]
+  },
+  {
+    "slug": "handoff-and-optimization",
+    "title": "Handoff and Optimization Path",
+    "description": "Focus on synthesis quality and the transition from logical optimization to implementation-ready handoff.",
+    "steps": [
+      {
+        "slug": "logic_synthesis",
+        "title": "Logic Synthesis",
+        "categoryTitle": "Logic & Handoff",
+        "estimatedMinutes": 45,
+        "summary": "Synthesis-focused note describing the path from RTL intent to implementation-ready netlists, with emphasis on constraints, optimization goals, and handoff quality."
+      },
+      {
+        "slug": "advanced_logic_synthesis",
+        "title": "Advanced Logic Synthesis",
+        "categoryTitle": "Logic & Handoff",
+        "estimatedMinutes": 50,
+        "summary": "Advanced synthesis lab note covering physical-aware optimization ideas, multibit strategies, and practical tradeoffs used before and during implementation handoff."
+      },
+      {
+        "slug": "pd_inputs",
+        "title": "Physical Design Inputs",
+        "categoryTitle": "Inputs & Setup",
+        "estimatedMinutes": 30,
+        "summary": "Input-readiness note clarifying required design files, constraints, and library consistency checks that prevent downstream physical design noise."
+      },
+      {
+        "slug": "floorplan",
+        "title": "Floorplanning",
+        "categoryTitle": "Implementation Flow",
+        "estimatedMinutes": 40,
+        "summary": "Execution-oriented note for floorplanning with focus on objectives, macro placement reasoning, power planning dependencies, and early congestion risk control."
+      },
+      {
+        "slug": "placement",
+        "title": "Placement",
+        "categoryTitle": "Implementation Flow",
+        "estimatedMinutes": 40,
+        "summary": "Placement lab note centered on timing/routability tradeoffs, legalization quality, and the debug loop between congestion signals and optimization moves."
+      }
+    ]
+  },
+  {
+    "slug": "lab-notes-maintenance",
+    "title": "Lab Notes Maintenance Path",
+    "description": "Track how the `.site` test domain documents experiments, sources, and implementation notes separately from `.top`.",
+    "steps": [
+      {
+        "slug": "projects",
+        "title": "Implementation Case Notes",
+        "categoryTitle": "Lab Workspace",
+        "estimatedMinutes": 20,
+        "summary": "A lightweight area for project-style implementation notes, case studies, and experiment summaries for the `.site` lab version."
+      },
+      {
+        "slug": "work_sited",
+        "title": "Reference Index",
+        "categoryTitle": "Lab Workspace",
+        "estimatedMinutes": 15,
+        "summary": "Reference index for the `.site` lab version, used to keep source lists separate from the `.top` site’s long-form citation page structure."
+      }
+    ]
+  }
+]

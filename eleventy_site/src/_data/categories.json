@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "foundations",
+    "title": "Foundations",
+    "description": "Device behavior, modeling concepts, and vocabulary that support later implementation and timing decisions."
+  },
+  {
+    "slug": "logic",
+    "title": "Logic & Handoff",
+    "description": "RTL-to-netlist concepts, optimization strategies, and handoff quality checks before physical design."
+  },
+  {
+    "slug": "inputs",
+    "title": "Inputs & Setup",
+    "description": "Required files, constraints, and setup checks that reduce downstream debug noise."
+  },
+  {
+    "slug": "implementation",
+    "title": "Implementation Flow",
+    "description": "Floorplan, placement, and clocking notes with a practical checklist-driven review approach."
+  },
+  {
+    "slug": "lab",
+    "title": "Lab Workspace",
+    "description": "Case-note and reference-oriented pages kept separate from production content style."
+  }
+]

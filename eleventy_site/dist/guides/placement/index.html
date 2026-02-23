@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Placement Lab Note | VLSI PD Lab</title>
+  <meta name="description" content="A placement guide organized around execution checkpoints: inputs, prechecks, global placement, legalization, detailed placement, congestion and timing analysis, and preparation for CTS and routing.">
+  
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://www.vlsiphysicaldesign.site/guides/placement/">
+  
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI PD Lab">
+  <meta property="og:title" content="Placement Lab Note | VLSI PD Lab">
+  <meta property="og:description" content="A placement guide organized around execution checkpoints: inputs, prechecks, global placement, legalization, detailed placement, congestion and timing analysis, and preparation for CTS and routing.">
+  <meta property="og:url" content="https://www.vlsiphysicaldesign.site/guides/placement/">
+  <meta property="og:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Placement Lab Note | VLSI PD Lab">
+  <meta name="twitter:description" content="A placement guide organized around execution checkpoints: inputs, prechecks, global placement, legalization, detailed placement, congestion and timing analysis, and preparation for CTS and routing.">
+  <meta name="twitter:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>VLSI PD Lab</strong>
+          <small>Fast study notes and implementation checklists</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main"><section class="shell page-head">
+  <p class="eyebrow">Implementation Flow | Intermediate</p>
+  <h1>Placement Flow: From Global Placement to Detailed Optimization</h1>
+  <p class="lede">A placement guide organized around execution checkpoints: inputs, prechecks, global placement, legalization, detailed placement, congestion and timing analysis, and preparation for CTS and routing.</p>
+  <p class="meta">Estimated review time: ~50 minutes | Updated 2026-02-18</p>
+</section>
+
+<section class="shell section two-col">
+  <article class="panel flow">
+    <h2>Design context and scope</h2>
+    <p>This lab note reworks the original placement article into a debug-oriented sequence. It keeps the same scope (stages, algorithms, optimization, and validation) while focusing on the practical questions asked during repeated placement runs.</p>
+
+    
+    <h2>Coverage map for this lab note</h2>
+    <ul>
+      
+      <li>Placement goals and strategic priorities: timing, routability, density balance, and legal manufacturable placement.</li>
+      
+      <li>Inputs required by placement and the pre-placement checks that prevent misleading optimization results.</li>
+      
+      <li>Special and pre-placed cells (macros, endcaps, tap cells, and related structures) and why they shape the search space.</li>
+      
+      <li>Global placement as coarse optimization for wirelength, timing, and routability before exact legal coordinates.</li>
+      
+      <li>Legalization stage and the rules it enforces while preserving as much QoR as possible.</li>
+      
+      <li>Detailed placement for local improvements, spacing compliance, and timing and routability refinement.</li>
+      
+      <li>Placement optimization toolkit (buffering, resizing, HFNS, restructuring) and pre-CTS tradeoffs.</li>
+      
+      <li>Post-placement qualification using congestion, timing, density, and report-based review.</li>
+      
+      <li>How placement quality affects CTS and routing closure, especially at advanced nodes.</li>
+      
+    </ul>
+    
+
+    <h2>What you should be able to explain</h2>
+    <ul>
+      
+      <li>Describe the purpose and expected outputs of global placement, legalization, and detailed placement.</li>
+      
+      <li>Interpret placement reports to separate timing problems from congestion and floorplan root causes.</li>
+      
+      <li>Build a run-to-run comparison method using a small set of consistent placement metrics.</li>
+      
+      <li>Explain why a placement that looks timing-good can still fail in CTS or routing.</li>
+      
+    </ul>
+
+    <h2>Review checklist before moving ahead</h2>
+    <ol>
+      
+      <li>Verify pre-placement setup (libraries, constraints, floorplan, special cells) before comparing QoR.</li>
+      
+      <li>Review congestion map, density hotspots, and worst path groups after global placement.</li>
+      
+      <li>Check legalization side effects on displacement and local density.</li>
+      
+      <li>Inspect pre-CTS optimization actions (HFNS, buffering, resizing) for intended impact.</li>
+      
+      <li>Record placement risks that must be tracked in CTS and routing, not just current WNS or TNS.</li>
+      
+    </ol>
+
+    
+    <h2>Common watchouts</h2>
+    <ul>
+      
+      <li>Do not compare placement runs using only WNS; congestion and density often predict later failures better.</li>
+      
+      <li>Legalization fixes can silently degrade timing or increase route pressure if not reviewed.</li>
+      
+      <li>HFNS and buffering can solve one metric while increasing power or CTS complexity.</li>
+      
+    </ul>
+    
+
+    
+    <h2>Self-check prompts</h2>
+    <ul>
+      
+      <li>What metrics do you use to decide whether a placement run is worth continuing?</li>
+      
+      <li>When does a congestion issue point back to floorplanning instead of placement settings?</li>
+      
+      <li>How would you explain legalization to someone who only looks at timing reports?</li>
+      
+    </ul>
+    
+  </article>
+
+  <aside class="side-stack">
+    <section class="panel">
+      <h2>Entry requirements</h2>
+      <ul>
+        
+        <li>Floorplanning basics</li>
+        
+        <li>PD inputs and library consistency</li>
+        
+        <li>Basic timing and congestion terminology</li>
+        
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Key terms to retain</h2>
+      <div class="chips">
+        
+        <span class="chip">Placement</span>
+        
+        <span class="chip">Global Placement</span>
+        
+        <span class="chip">Legalization</span>
+        
+        <span class="chip">Detailed Placement</span>
+        
+        <span class="chip">Congestion</span>
+        
+        <span class="chip">Routability</span>
+        
+        <span class="chip">HFNS</span>
+        
+        <span class="chip">Pre-CTS Optimization</span>
+        
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this page with</h2>
+      <ul>
+        <li><a href="/guides/#implementation">Back to Implementation Flow</a></li>
+        <li><a href="/tracks/">Use a study track for sequencing</a></li>
+        <li><a href="/">Return to home</a></li>
+      </ul>
+    </section>
+  </aside>
+</section>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>VLSI PD Lab</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Logic Synthesis Lab Note | VLSI PD Lab</title>
+  <meta name="description" content="An advanced synthesis lab note covering physical-aware optimization, CCD, multibit banking, SAIF-driven power reduction, and Boolean transforms, rewritten as a decision guide for implementation handoff quality.">
+  
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://www.vlsiphysicaldesign.site/guides/advanced_logic_synthesis/">
+  
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI PD Lab">
+  <meta property="og:title" content="Advanced Logic Synthesis Lab Note | VLSI PD Lab">
+  <meta property="og:description" content="An advanced synthesis lab note covering physical-aware optimization, CCD, multibit banking, SAIF-driven power reduction, and Boolean transforms, rewritten as a decision guide for implementation handoff quality.">
+  <meta property="og:url" content="https://www.vlsiphysicaldesign.site/guides/advanced_logic_synthesis/">
+  <meta property="og:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Advanced Logic Synthesis Lab Note | VLSI PD Lab">
+  <meta name="twitter:description" content="An advanced synthesis lab note covering physical-aware optimization, CCD, multibit banking, SAIF-driven power reduction, and Boolean transforms, rewritten as a decision guide for implementation handoff quality.">
+  <meta name="twitter:image" content="https://www.vlsiphysicaldesign.site/assets/og-lab-card.svg">
+
+  <link rel="preload" href="/assets/site.css" as="style">
+  <link rel="stylesheet" href="/assets/site.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="/">
+        <span class="brand-mark">PD</span>
+        <span>
+          <strong>VLSI PD Lab</strong>
+          <small>Fast study notes and implementation checklists</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/tracks/">Study Tracks</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main"><section class="shell page-head">
+  <p class="eyebrow">Logic &amp; Handoff | Advanced</p>
+  <h1>Physical-Aware Synthesis Optimization and Pre-Implementation Tradeoffs</h1>
+  <p class="lede">An advanced synthesis lab note covering physical-aware optimization, CCD, multibit banking, SAIF-driven power reduction, and Boolean transforms, rewritten as a decision guide for implementation handoff quality.</p>
+  <p class="meta">Estimated review time: ~60 minutes | Updated 2026-02-18</p>
+</section>
+
+<section class="shell section two-col">
+  <article class="panel flow">
+    <h2>Design context and scope</h2>
+    <p>This guide condenses the original advanced synthesis and physical implementation article into a review-oriented format. It preserves the major optimization families and flow stages while focusing on intent, risk, and validation strategy instead of copying the source narrative.</p>
+
+    
+    <h2>Coverage map for this lab note</h2>
+    <ul>
+      
+      <li>Optimization goals, prerequisites, and sign-off style QoR metrics used to decide whether advanced transforms are worth it.</li>
+      
+      <li>Front-end transforms: generic Boolean translation, boundary optimization, constant propagation, and hierarchy control.</li>
+      
+      <li>Datapath and MUX optimizations, sequential mapping, DFT-aware choices, register replication, and register merging tradeoffs.</li>
+      
+      <li>Area recovery steps (downsizing and cleanup) and the risk of eroding timing margin before implementation.</li>
+      
+      <li>Unified physical synthesis flow, early data checks, and why setup quality determines optimization usefulness.</li>
+      
+      <li>Concurrent clock-data optimization (CCD), useful skew strategy, and slack balancing behavior across path groups.</li>
+      
+      <li>Multibit banking and debanking controls from RTL inference through physical realization and ECO implications.</li>
+      
+      <li>SAIF-driven power optimization, clock gating, self-gating ideas, and IR-drop-aware thinking during synthesis.</li>
+      
+      <li>Two-level and multi-level Boolean optimization review for timing, area, and power closure trade studies.</li>
+      
+    </ul>
+    
+
+    <h2>What you should be able to explain</h2>
+    <ul>
+      
+      <li>Classify advanced synthesis techniques by the problem they target (timing, area, power, or physical correlation).</li>
+      
+      <li>Explain when physical-aware synthesis improves downstream implementation versus when it creates placement or routing friction.</li>
+      
+      <li>Prepare a validation plan for aggressive transformations such as multibit banking, CCD, or power-driven remapping.</li>
+      
+      <li>Communicate rollback criteria when advanced optimizations reduce robustness or debug visibility.</li>
+      
+    </ul>
+
+    <h2>Review checklist before moving ahead</h2>
+    <ol>
+      
+      <li>Document which advanced features were enabled and why (CCD, multibit, SAIF, area recovery, etc.).</li>
+      
+      <li>Compare QoR before and after transforms using consistent corners and constraints.</li>
+      
+      <li>Review paths with large slack redistribution to ensure no hidden hold or routeability risk was introduced.</li>
+      
+      <li>Check multibit conversions for placement and legalization implications plus ECO impact.</li>
+      
+      <li>Validate power changes against activity assumptions and confirm clock-gating logic remains functionally intended.</li>
+      
+      <li>Capture a rollback point before enabling another aggressive optimization pass.</li>
+      
+    </ol>
+
+    
+    <h2>Common watchouts</h2>
+    <ul>
+      
+      <li>Physical-aware synthesis is only as good as the floorplan and constraint assumptions it receives.</li>
+      
+      <li>Multibit banking can improve power and area but complicate ECO flexibility, placement freedom, and debugging.</li>
+      
+      <li>Power optimizations based on weak or stale activity data can mislead decisions and hurt timing correlation.</li>
+      
+    </ul>
+    
+
+    
+    <h2>Self-check prompts</h2>
+    <ul>
+      
+      <li>How would you justify enabling CCD for one block but not another?</li>
+      
+      <li>What evidence shows a multibit change is truly beneficial after placement, not just during synthesis?</li>
+      
+      <li>Which advanced optimizations should be revisited after early physical feedback?</li>
+      
+    </ul>
+    
+  </article>
+
+  <aside class="side-stack">
+    <section class="panel">
+      <h2>Entry requirements</h2>
+      <ul>
+        
+        <li>Logic synthesis fundamentals</li>
+        
+        <li>Physical design flow overview</li>
+        
+        <li>Basic STA and power report interpretation</li>
+        
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Key terms to retain</h2>
+      <div class="chips">
+        
+        <span class="chip">Physical Synthesis</span>
+        
+        <span class="chip">CCD</span>
+        
+        <span class="chip">Useful Skew</span>
+        
+        <span class="chip">Multibit Banking</span>
+        
+        <span class="chip">Debanking</span>
+        
+        <span class="chip">SAIF</span>
+        
+        <span class="chip">Clock Gating</span>
+        
+        <span class="chip">Area Recovery</span>
+        
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this page with</h2>
+      <ul>
+        <li><a href="/guides/#logic">Back to Logic &amp; Handoff</a></li>
+        <li><a href="/tracks/">Use a study track for sequencing</a></li>
+        <li><a href="/">Return to home</a></li>
+      </ul>
+    </section>
+  </aside>
+</section>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p><strong>VLSI PD Lab</strong> is a lightweight lab-style reference for VLSI physical design learning.</p>
+      <p>Built for the `.site` test domain with different structure and metadata from the `.top` site.</p>
+      <p><a href="/sitemap.xml">Sitemap</a> <span aria-hidden="true">|</span> <a href="/guides/">All guides</a></p>
+    </div>
+  </footer>
+</body>
+</html>
